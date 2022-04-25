@@ -116,8 +116,11 @@ class TweetDfExtractor:
             hashtags.append(", ".join([hashtag_item['text'] for hashtag_item in tw['entities']['hashtags']]))
             
     def find_mentions(self)->list:
-        mentions = 
+        mentions = []
+        for tw in self.tweets_list:
+            mentions.append( ", ".join([mention['screen_name'] for mention in tw['entities']['user_mentions']]))
 
+        return mentions
 
     def find_location(self)->list:
         try:
