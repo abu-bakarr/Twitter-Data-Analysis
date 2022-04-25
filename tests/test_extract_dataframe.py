@@ -1,13 +1,5 @@
-<<<<<<< HEAD
-try:
-    from ..extract_dataframe import TweetDfExtractor
-except:
-    from ..extract_dataframe import *
+from ..extract_dataframe import TweetDfExtractor
 from ..extract_dataframe import read_json
-=======
-from extract_dataframe import TweetDfExtractor
-from extract_dataframe import read_json
->>>>>>> 89e40b8da9049087a1afd05fc822c78d6bea3030
 import unittest
 import pandas as pd
 import sys
@@ -18,32 +10,18 @@ sys.path.append(os.path.abspath(os.path.join('../..')))
 
 _, tweet_list = read_json("../data/Economic_Twitter_Data.json")
 
-<<<<<<< HEAD
 columns = ['created_at', 'source', 'original_text', 'polarity', 'subjectivity', 'lang', 'favorite_count', 'retweet_count',
            'original_author', 'followers_count', 'friends_count', 'possibly_sensitive', 'hashtags', 'user_mentions', 'place']
-=======
-columns = ['created_at', 'source', 'original_text', 'clean_text', 'sentiment', 'polarity', 'subjectivity', 'lang', 'favorite_count', 'retweet_count',
-           'original_author', 'screen_count', 'followers_count', 'friends_count', 'possibly_sensitive', 'hashtags', 'user_mentions', 'place', 'place_coord_boundaries']
->>>>>>> 89e40b8da9049087a1afd05fc822c78d6bea3030
 
 
 class TestTweetDfExtractor(unittest.TestCase):
     """
-<<<<<<< HEAD
-        A class for unit-testing function in the fix_clean_tweets_dataframe.py file
-
-        Args:
-        -----
-            unittest.TestCase this allows the new class to inherit
-            from the unittest module
-=======
                 A class for unit-testing function in the fix_clean_tweets_dataframe.py file
 
                 Args:
         -----
                         unittest.TestCase this allows the new class to inherit
                         from the unittest module
->>>>>>> 89e40b8da9049087a1afd05fc822c78d6bea3030
         """
 
     def setUp(self) -> pd.DataFrame:
