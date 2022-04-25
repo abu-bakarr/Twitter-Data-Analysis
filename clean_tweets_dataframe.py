@@ -66,5 +66,5 @@ class Clean_Tweets:
 
 
 if __name__ == "__main__":
-    tweet_df = pd.read_csv("./data/covid19.json")
+    tweet_df = pd.read_json("./data/covid19.json")
     cleaner = Clean_Tweets(tweet_df)
