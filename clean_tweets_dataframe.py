@@ -26,6 +26,7 @@ class Clean_Tweets:
         """
         drop duplicate rows
         """
+        self.df = self.df.drop_duplicates().drop_duplicates(subset='original_text')
 
         return df
 
@@ -33,10 +34,12 @@ class Clean_Tweets:
         """
         convert column to datetime
         """
+        self.df['created_at'] = pd.to_datetime(
+            self.df['created_at'], errors='coerce')
 
-        df = df[df['created_at'] >= '2020-12-31']
+        self.df = self.df[self.df['created_at'] >= '2020-12-31']
 
-        return df
+        return self.df
 
     def convert_to_numbers(self, df: pd.DataFrame) -> pd.DataFrame:
         """
