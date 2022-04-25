@@ -123,13 +123,11 @@ class TweetDfExtractor:
         return mentions
 
     def find_location(self)->list:
-        try:
-            location = self.tweets_list['user']['location']
-        except TypeError:
-            location = ''
-        
+        location = []
+        for tweet in self.tweets_list:
+            location.append(tweet['user']['location'])
+            
         return location
-
     
         
         
@@ -155,11 +153,11 @@ class TweetDfExtractor:
         location = self.find_location()
         data = zip(created_at, source, text, polarity, subjectivity, lang, fav_count, retweet_count, screen_name, follower_count, friends_count, sensitivity, hashtags, mentions, location)
         df = pd.DataFrame(data=data, columns=columns)
-
+        
         if save:
             df.to_csv('processed_tweet_data.csv', index=False)
             print('File Successfully Saved.!!!')
-        
+            
         return df
 
                 
