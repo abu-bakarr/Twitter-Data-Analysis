@@ -20,7 +20,7 @@ def read_json(json_file: str)->list:
     
     
     return len(tweets_data), tweets_data
-    
+
 class TweetDfExtractor:
     """
     this function will parse tweets json into a pandas dataframe
@@ -47,7 +47,7 @@ class TweetDfExtractor:
 
         return text       
     
-    def find_sentiments(self, text:list)->list:
+    def find_sentiments(self, text)->list:
         polarity, subjectivity = [], []
         for tweet in text:
             blob = TextBlob(tweet)
@@ -90,7 +90,6 @@ class TweetDfExtractor:
             else: is_sensitive.append(None)
     
         return is_sensitive
-       
 
     def find_favourite_count(self)->list:
         favorite_count = []
@@ -115,24 +114,13 @@ class TweetDfExtractor:
         hashtags = []
         for tw in self.tweets_list:
             hashtags.append(", ".join([hashtag_item['text'] for hashtag_item in tw['entities']['hashtags']]))
-
-    def find_hashtags(self) -> list:
-        hashtags = [tw.get('entities', {}).get('hashtags', None)
-                    for tw in self.tweets_list]
-
-        return hashtags
-
+            
     def find_mentions(self)->list:
         mentions = []
         for tw in self.tweets_list:
             mentions.append( ", ".join([mention['screen_name'] for mention in tw['entities']['user_mentions']]))
 
         return mentions
-    
-    def find_lang(self)->list:
-        lang = [x['lang'] for x in self.tweets_list]
-        
-        return lang
 
     def find_location(self)->list:
         location = []
@@ -141,6 +129,8 @@ class TweetDfExtractor:
             
         return location
     
+        
+        
     def get_tweet_df(self, save=False)->pd.DataFrame:
         """required column to be generated you should be creative and add more features"""
         
@@ -170,24 +160,15 @@ class TweetDfExtractor:
             
         return df
 
-    
-                    
-def find_full_text(self)->list:
-    try:
-        retweeted_status = [x.get("retweeted_status", {}) for x in self.tweets_list]
-        text =[(x.get("extended_tweet", {})).get("full_text", None) for x in retweeted_status]
-        filtered = []
-        for x in text:
-            if x != None:
-                filtered.append(x)
-                text = ''.join(filtered)
-    except KeyError:
-        text = ''
-    return text
-
+                
 if __name__ == "__main__":
-    
-    _, tweet_list = read_json("covid19.json")
-    
+    # required column to be generated you should be creative and add more features
+    columns = ['created_at', 'source', 'original_text','clean_text', 'sentiment','polarity','subjectivity', 'lang', 'favorite_count', 'retweet_count', 
+    'original_author', 'screen_count', 'followers_count','friends_count','possibly_sensitive', 'hashtags', 'user_mentions', 'place', 'place_coord_boundaries']
+    _, tweet_list = read_json("./data/covid19.json")
     tweet = TweetDfExtractor(tweet_list)
-    df = tweet.get_tweet_df()
+    tweet_df = tweet.get_tweet_df() 
+
+    # use all defined functions to generate a dataframe with the specified columns above
+
+    
