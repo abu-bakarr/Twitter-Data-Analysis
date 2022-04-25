@@ -55,9 +55,16 @@ class Clean_Tweets:
 
         return self.df
 
-    def remove_non_english_tweets(self, df: pd.DataFrame) -> pd.DataFrame:
+    def remove_non_english_tweets(self) -> pd.DataFrame:
         """
         remove non english tweets from lang
         """
 
-        return df
+        self.df = self.df.query("lang == 'en' ")
+
+        return self.df
+
+
+if __name__ == "__main__":
+    tweet_df = pd.read_csv("./data/covid19.json")
+    cleaner = Clean_Tweets(tweet_df)
