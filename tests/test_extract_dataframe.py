@@ -8,7 +8,7 @@ import os
 sys.path.append(os.path.abspath(os.path.join('../..')))
 
 
-_, tweet_list = read_json("data/covid19.json")
+_, tweet_list = read_json("data/Economic_Twitter_Data.json")
 
 columns = ['created_at', 'source', 'original_text', 'clean_text', 'sentiment', 'polarity', 'subjectivity', 'lang', 'favorite_count', 'retweet_count',
            'original_author', 'screen_count', 'followers_count', 'friends_count', 'possibly_sensitive', 'hashtags', 'user_mentions', 'place', 'place_coord_boundaries']
@@ -17,7 +17,6 @@ columns = ['created_at', 'source', 'original_text', 'clean_text', 'sentiment', '
 class TestTweetDfExtractor(unittest.TestCase):
     """
                 A class for unit-testing function in the fix_clean_tweets_dataframe.py file
-
                 Args:
         -----
                         unittest.TestCase this allows the new class to inherit
@@ -26,7 +25,6 @@ class TestTweetDfExtractor(unittest.TestCase):
 
     def setUp(self) -> pd.DataFrame:
         self.df = TweetDfExtractor(tweet_list[:5])
-        # tweet_df = self.df.get_tweet_df()
 
     def test_find_statuses_count(self):
         self.assertEqual(self.df.find_statuses_count(), [
