@@ -44,7 +44,9 @@ class TweetDfExtractor:
     def find_full_text(self) -> list:
         text = []
         for tweet in self.tweets_list:
+
             if 'retweeted_status' in tweet and 'extended_tweet' in tweet['retweeted_status']:
+
                 text.append(tweet['retweeted_status']
                             ['extended_tweet']['full_text'])
             else:
@@ -102,6 +104,7 @@ class TweetDfExtractor:
         favorite_count = []
         for tweet in self.tweets_list:
             if 'retweeted_status' in tweet:
+
                 favorite_count.append(
                     tweet['retweeted_status']['favorite_count'])
             else:
@@ -113,7 +116,9 @@ class TweetDfExtractor:
 
         retweet_count = []
         for tweet in self.tweets_list:
+
             if 'retweeted_status' in tweet:
+
                 retweet_count.append(
                     tweet['retweeted_status']['retweet_count'])
             else:
@@ -177,7 +182,9 @@ if __name__ == "__main__":
     # required column to be generated you should be creative and add more features
     columns = ['created_at', 'source', 'original_text', 'clean_text', 'sentiment', 'polarity', 'subjectivity', 'lang', 'favorite_count', 'retweet_count',
                'original_author', 'screen_count', 'followers_count', 'friends_count', 'possibly_sensitive', 'hashtags', 'user_mentions', 'place', 'place_coord_boundaries']
-    _, tweet_list = pd.read_json("./data/Economic_Twitter_Data.json")
+
+    _, tweet_list = read_json("./data/Economic_Twitter_Data.json")
+
     tweet = TweetDfExtractor(tweet_list)
     tweet_df = tweet.get_tweet_df()
 
