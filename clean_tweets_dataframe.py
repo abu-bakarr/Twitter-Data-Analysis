@@ -15,18 +15,17 @@ class Clean_Tweets:
         remove rows that has column names. This error originated from
         the data collection stage.  
         """
-        unwanted_rows = self.df[self.df['retweet_count']
-                                == 'retweet_count'].index
-        self.df.drop(unwanted_rows, inplace=True)
-        self.df = self.df[self.df['polarity'] != 'polarity']
+        unwanted_rows = df[df['retweet_count'] == 'retweet_count'].index
+        df.drop(unwanted_rows, inplace=True)
+        df = df[df['polarity'] != 'polarity']
 
-        return self.df
+        return df
 
     def drop_duplicate(self, df: pd.DataFrame) -> pd.DataFrame:
         """
         drop duplicate rows
         """
-        self.df = self.df.drop_duplicates().drop_duplicates(subset='original_text')
+        df.drop_duplicates(keep=False)
 
         return df
 
@@ -34,37 +33,32 @@ class Clean_Tweets:
         """
         convert column to datetime
         """
-        self.df['created_at'] = pd.to_datetime(
-            self.df['created_at'], errors='coerce')
 
-        self.df = self.df[self.df['created_at'] >= '2020-12-31']
+        df['created_at'] = pd.to_datetime(
+            df['created_at']).dt.strftime('%Y-%m-%d')
 
-        return self.df
+        df = df[df['created_at'] >= '2020-12-31']
+
+        return df
 
     def convert_to_numbers(self, df: pd.DataFrame) -> pd.DataFrame:
         """
         convert columns like polarity, subjectivity, retweet_count
         favorite_count etc to numbers
         """
-        self.df['polarity'] = pd.to_numeric(
-            self.df['polarity'], errors='coerce')
-        self.df['retweet_count'] = pd.to_numeric(
-            self.df['retweet_count'], errors='coerce')
-        self.df['favorite_count'] = pd.to_numeric(
-            self.df['favorite_count'], errors='coerce')
 
-        return self.df
+        columns = ['polarity', 'subjectivity', 'favorite_count',
+                   'retweet_count', 'followers_count', 'friends_count']
+        for column in columns:
+            df[column] = pd.to_numeric(df[column])
 
-    def remove_non_english_tweets(self) -> pd.DataFrame:
+        return df
+
+    def remove_non_english_tweets(self, df: pd.DataFrame) -> pd.DataFrame:
         """
         remove non english tweets from lang
         """
 
-        self.df = self.df.query("lang == 'en' ")
+        df = df.drop(df[df['lang'] != 'en'].index)
 
-        return self.df
-
-
-if __name__ == "__main__":
-    tweet_df = pd.read_json("./data/Economic_Twitter_Data.json")
-    cleaner = Clean_Tweets(tweet_df)
+        return df
